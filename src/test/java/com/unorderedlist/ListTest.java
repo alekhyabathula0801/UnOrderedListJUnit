@@ -18,9 +18,9 @@ public class ListTest {
     }
 
     @Test
-    public <E> void givenData_whenAdded_ShouldReturn3() throws ListException{
+    public <E> void given3Items_whenAdded_ShouldReturn3() throws ListException{
         List<E> list = new List<>();
-        list.add(2);
+        list.add(265);
         list.add("Apple");
         list.add('d');
         Assert.assertEquals(3,list.count);
@@ -40,9 +40,63 @@ public class ListTest {
     public <E> void givenEmpty_ShouldThrowException() {
         List<E> list = new List<>();
         try {
-            list.add(null);
+            list.add("");
+        } catch(Exception e) {
+            Assert.assertEquals("Entered Empty", e.getMessage());
+        }
+    }
+
+    @Test
+    public <E> void given3Items_when2ndItemRemoved_ShouldReturn2() throws ListException{
+        List<E> list = new List<>();
+        list.add(2);
+        list.add("Apple");
+        list.add('d');
+        list.remove("Apple");
+        Assert.assertEquals(2,list.count);
+    }
+
+    @Test
+    public <E> void given4Items_when2ItemRemoved_ShouldReturn2() throws ListException{
+        List<E> list = new List<>();
+        list.add(2);
+        list.add("Apple");
+        list.add('d');
+        list.add(34);
+        list.remove("Apple");
+        list.remove(34);
+        Assert.assertEquals(2,list.count);
+    }
+
+    @Test
+    public <E> void given3Items_when1stItemRemoved_ShouldReturn2() throws ListException{
+        List<E> list = new List<>();
+        list.add(2);
+        list.add("Apple");
+        list.add('d');
+        list.remove(2);
+        Assert.assertEquals(2,list.count);
+    }
+
+    @Test
+    public <E> void givenRemoveItemAsNull_ShouldThrowException() {
+        List<E> list = new List<>();
+        try {
+            list.add(5);
+            list.remove(null);
         } catch(Exception e) {
             Assert.assertEquals("Entered Null", e.getMessage());
+        }
+    }
+
+    @Test
+    public <E> void givenRemoveItemAsEmpty_ShouldThrowException() {
+        List<E> list = new List<>();
+        try {
+            list.add(4);
+            list.remove("");
+        } catch(Exception e) {
+            Assert.assertEquals("Entered Empty", e.getMessage());
         }
     }
 }

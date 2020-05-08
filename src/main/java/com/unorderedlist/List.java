@@ -27,15 +27,33 @@ public class List <E> {
             if(item == "")
                 throw new ListException("Entered Empty");
             Node newNode = new Node(item);
+            newNode.next = null;
 
             if (first == null) {
                 first = newNode;
                 last = newNode;
-                count++;
             } else {
                 last.next = newNode;
                 last = newNode;
-                count++;
+            }
+            count++;
+        } catch (NullPointerException e) {
+            throw new ListException("Entered Null");
+        }
+    }
+
+    public <E> void remove(E item) throws ListException {
+        try {
+            if(item == "")
+                throw new ListException("Entered Empty");
+            Node temp = first;
+            if (first.data == item) {
+                first = first.next;
+                count--;
+            } else {
+                for(temp=first;temp.next.data != item; temp=temp.next);
+                temp.next = temp.next.next;
+                count--;
             }
         } catch (NullPointerException e) {
             throw new ListException("Entered Null");
