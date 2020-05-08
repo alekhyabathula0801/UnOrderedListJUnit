@@ -2,8 +2,8 @@ package com.unorderedlist;
 
 public class List <E> {
 
-    public E first;
-    public E last;
+    public Node first;
+    public Node last;
     public int count;
 
     public List() {
@@ -12,9 +12,33 @@ public class List <E> {
         count = 0;
     }
 
-    class Node {
+    class Node <E> {
         E data;
-        List next;
+        Node next;
+
+        public Node(E data) {
+            this.data = data;
+            this.next = null;
+        }
     }
 
+    public <E> void add(E item) throws ListException {
+        try {
+            if(item == "")
+                throw new ListException("Entered Empty");
+            Node newNode = new Node(item);
+
+            if (first == null) {
+                first = newNode;
+                last = newNode;
+                count++;
+            } else {
+                last.next = newNode;
+                last = newNode;
+                count++;
+            }
+        } catch (NullPointerException e) {
+            throw new ListException("Entered Null");
+        }
+    }
 }
