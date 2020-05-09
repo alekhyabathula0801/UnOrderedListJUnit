@@ -4,6 +4,7 @@ public class List <E> {
 
     public Node first;
     public Node last;
+    public Node temp;
     public int count;
 
     public List() {
@@ -18,7 +19,6 @@ public class List <E> {
 
         public Node(E data) {
             this.data = data;
-            this.next = null;
         }
     }
 
@@ -27,7 +27,6 @@ public class List <E> {
             if(item == "")
                 throw new ListException("Entered Empty");
             Node newNode = new Node(item);
-            newNode.next = null;
 
             if (first == null) {
                 first = newNode;
@@ -36,6 +35,7 @@ public class List <E> {
                 last.next = newNode;
                 last = newNode;
             }
+            last.next = null;
             count++;
         } catch (NullPointerException e) {
             throw new ListException("Entered Null");
@@ -46,15 +46,33 @@ public class List <E> {
         try {
             if(item == "")
                 throw new ListException("Entered Empty");
-            Node temp = first;
             if (first.data == item) {
                 first = first.next;
+                count--;
+            } else if(last.data==item){
+                for(temp=first;temp.next.next != null; temp=temp.next);
+                last = temp;
+                last.next = null;
                 count--;
             } else {
                 for(temp=first;temp.next.data != item; temp=temp.next);
                 temp.next = temp.next.next;
                 count--;
             }
+        } catch (NullPointerException e) {
+            throw new ListException("Entered Null");
+        }
+    }
+
+    public <E> Boolean search(E item) throws ListException {
+        try {
+            if(item == "")
+                throw new ListException("Entered Empty");
+            for(temp=first; temp != null; temp=temp.next) {
+                if (temp.data == item)
+                    return true;
+            }
+            return false;
         } catch (NullPointerException e) {
             throw new ListException("Entered Null");
         }

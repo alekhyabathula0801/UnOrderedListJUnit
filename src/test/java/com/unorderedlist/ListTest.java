@@ -99,4 +99,70 @@ public class ListTest {
             Assert.assertEquals("Entered Empty", e.getMessage());
         }
     }
+
+
+    @Test
+    public <E> void given1stItemForSearch_whenFound_ShouldReturnTrue() throws ListException{
+        List<E> list = new List<>();
+        list.add(2);
+        list.add("Apple");
+        list.add('d');
+        Boolean result = list.search(2);
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public <E> void given2ndItemForSearch_whenFound_ShouldReturnTrue() throws ListException{
+        List<E> list = new List<>();
+        list.add(2);
+        list.add("Apple");
+        list.add('d');
+        list.add(34);
+        Boolean result = list.search("Apple");
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public <E> void givenLastItemForSearch_whenFound_ShouldReturnTrue() throws ListException{
+        List<E> list = new List<>();
+        list.add(2);
+        list.add("Apple");
+        list.add('d');
+        Boolean result = list.search('d');
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public <E> void givenItemForSearch_whenNotFound_ShouldReturnFalse() throws ListException{
+        List<E> list = new List<>();
+        list.add(2);
+        list.add("Apple");
+        list.add('d');
+        Boolean result = list.search("alex");
+        Assert.assertFalse(result);
+    }
+
+    @Test
+    public <E> void givenNullForSearch_ShouldThrowException() {
+        List<E> list = new List<>();
+        try {
+            list.add(5);
+            list.search(null);
+        } catch(Exception e) {
+            Assert.assertEquals("Entered Null", e.getMessage());
+        }
+    }
+
+    @Test
+    public <E> void givenEmptyForSearch_ShouldThrowException() {
+        List<E> list = new List<>();
+        try {
+            list.add(4);
+            list.search("");
+        } catch(Exception e) {
+            Assert.assertEquals("Entered Empty", e.getMessage());
+        }
+    }
+
 }
+
