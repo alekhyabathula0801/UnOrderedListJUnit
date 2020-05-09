@@ -77,4 +77,10 @@ public class List <E> {
             throw new ListException("Entered Null");
         }
     }
+
+    public <E> Boolean isEmpty() {
+        if(count == 0)
+            return true;
+        return false;
+    }
 }

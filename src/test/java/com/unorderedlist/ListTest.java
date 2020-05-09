@@ -164,5 +164,19 @@ public class ListTest {
         }
     }
 
+    @Test
+    public <E> void givenNoitems_shouldReturnTrue() {
+        List<E> list = new List<>();
+        Boolean result = list.isEmpty();
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public <E> void givenitems_whenNoItems_shouldReturnFalse() throws ListException{
+        List<E> list = new List<>();
+        list.add(1);
+        Boolean result = list.isEmpty();
+        Assert.assertFalse(result);
+    }
 }
 
