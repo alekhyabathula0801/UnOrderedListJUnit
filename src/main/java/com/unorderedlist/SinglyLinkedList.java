@@ -1,13 +1,13 @@
 package com.unorderedlist;
 
-public class List <E> {
+public class SinglyLinkedList<E> {
 
     public Node first;
     public Node last;
     public Node temp;
     public int count;
 
-    public List() {
+    public SinglyLinkedList() {
         first = null;
         last = null;
         count = 0;
@@ -86,5 +86,10 @@ public class List <E> {
 
     public <E> int size() {
         return count;
+    }
+
+    public <E> void displayItems() {
+        for(temp = first;temp != null; temp=temp.next)
+            System.out.println(temp.data);
     }
 }
