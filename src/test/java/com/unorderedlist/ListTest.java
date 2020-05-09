@@ -178,5 +178,15 @@ public class ListTest {
         Boolean result = list.isEmpty();
         Assert.assertFalse(result);
     }
+
+    @Test
+    public <E> void givenitems_shouldReturnSizeOfList() throws ListException{
+        List<E> list = new List<>();
+        list.add(1);
+        list.add("Ball");
+        int result = list.size();
+        Assert.assertEquals(2,result);
+    }
+
 }
 

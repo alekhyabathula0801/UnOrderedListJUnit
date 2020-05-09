@@ -83,4 +83,8 @@ public class List <E> {
             return true;
         return false;
     }
+
+    public <E> int size() {
+        return count;
+    }
 }
