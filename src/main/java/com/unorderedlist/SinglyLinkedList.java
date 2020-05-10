@@ -27,7 +27,6 @@ public class SinglyLinkedList<E> {
             if(item == "")
                 throw new ListException("Entered Empty");
             Node newNode = new Node(item);
-
             if (first == null) {
                 first = newNode;
                 last = newNode;
@@ -46,7 +45,7 @@ public class SinglyLinkedList<E> {
         try {
             if(item == "")
                 throw new ListException("Entered Empty");
-            if (first.data == item) {
+            else if (first.data == item) {
                 first = first.next;
                 count--;
             } else if(last.data==item){
@@ -54,11 +53,12 @@ public class SinglyLinkedList<E> {
                 last = temp;
                 last.next = null;
                 count--;
-            } else {
-                for(temp=first;temp.next.data != item; temp=temp.next);
-                temp.next = temp.next.next;
-                count--;
-            }
+            } else if(search(item)){
+                for(temp=first ;temp.next.data != item ; temp=temp.next);
+                    temp.next = temp.next.next;
+                    count--;
+            } else
+                System.out.println("Element entered is not found in list");
         } catch (NullPointerException e) {
             throw new ListException("Entered Null");
         }
@@ -69,7 +69,7 @@ public class SinglyLinkedList<E> {
             if(item == "")
                 throw new ListException("Entered Empty");
             for(temp=first; temp != null; temp=temp.next) {
-                if (temp.data == item)
+                if (item.equals(temp.data))
                     return true;
             }
             return false;
@@ -88,8 +88,21 @@ public class SinglyLinkedList<E> {
         return count;
     }
 
-    public <E> void displayItems() {
-        for(temp = first;temp != null; temp=temp.next)
+    public <E> void displayList(){
+        for(temp=first;temp!=null;temp=temp.next){
             System.out.println(temp.data);
+        }
     }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        temp = first;
+        while ( temp.next != null) {
+            builder.append(temp.data).append(",");
+            temp = temp.next;
+        }
+        builder.append(temp.data);
+        return builder+"";
+    }
+
 }

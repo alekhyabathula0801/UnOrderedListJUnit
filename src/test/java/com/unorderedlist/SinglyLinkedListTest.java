@@ -7,7 +7,8 @@ public class SinglyLinkedListTest {
     @Test
     public <E> void checkEmptyList() {
         SinglyLinkedList<E> singlyLinkedList = new SinglyLinkedList();
-        Assert.assertEquals(0, singlyLinkedList.count);
+
+        Assert.assertEquals(null, singlyLinkedList.first);
     }
 
     @Test
@@ -79,6 +80,15 @@ public class SinglyLinkedListTest {
     }
 
     @Test
+    public <E> void givenData_whenNotFound_ShouldReturnSize2() throws ListException{
+        SinglyLinkedList<E> singlyLinkedList = new SinglyLinkedList<>();
+            singlyLinkedList.add(5);
+            singlyLinkedList.add(2);
+            singlyLinkedList.remove(6);
+            Assert.assertEquals(2,singlyLinkedList.size());
+    }
+
+    @Test
     public <E> void givenRemoveItemAsNull_ShouldThrowException() {
         SinglyLinkedList<E> singlyLinkedList = new SinglyLinkedList<>();
         try {
@@ -99,7 +109,6 @@ public class SinglyLinkedListTest {
             Assert.assertEquals("Entered Empty", e.getMessage());
         }
     }
-
 
     @Test
     public <E> void given1stItemForSearch_whenFound_ShouldReturnTrue() throws ListException{
@@ -172,7 +181,7 @@ public class SinglyLinkedListTest {
     }
 
     @Test
-    public <E> void givenitems_whenNoItems_shouldReturnFalse() throws ListException{
+    public <E> void givenitems_shouldReturnFalse() throws ListException{
         SinglyLinkedList<E> singlyLinkedList = new SinglyLinkedList<>();
         singlyLinkedList.add(1);
         Boolean result = singlyLinkedList.isEmpty();
@@ -180,7 +189,7 @@ public class SinglyLinkedListTest {
     }
 
     @Test
-    public <E> void givenitems_shouldReturnSizeOfList() throws ListException{
+    public <E> void given2items_shouldReturn2() throws ListException{
         SinglyLinkedList<E> singlyLinkedList = new SinglyLinkedList<>();
         singlyLinkedList.add(1);
         singlyLinkedList.add("Ball");
