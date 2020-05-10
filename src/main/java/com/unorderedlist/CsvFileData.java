@@ -2,49 +2,53 @@ package com.unorderedlist;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvConstraintViolationException;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
-public class CsvFileAndLinkedList <E extends Comparable<E>> {
+public class CsvFileData<E extends Comparable<E>> {
 
     private static final String SAMPLE_CSV_FILE_PATH = "C:\\Users\\arun kumar\\IdeaProjects\\UnOrderedList\\src\\main\\resources\\data.csv";
 
-    public  SinglyLinkedList<E> readCsvFileToLinkedList() throws ListException {
-        SinglyLinkedList<E> singlyLinkedList = new SinglyLinkedList<>();
+    public List<E> readCsvFileToLinkedList() throws ListException {
+        List<E> list = new List<>();
         try (
                 Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_FILE_PATH));
                 CSVReader csvReader = new CSVReader(reader);
         ) {
             String[] records = csvReader.readNext();
             for (String record : records) {
-                singlyLinkedList.add(record);
+                list.add(record);
             }
         } catch (IOException e) {
             System.out.println("No record found");
         }
-        return singlyLinkedList;
+        return list;
     }
 
-    public void writeInCsvFile(SinglyLinkedList<E> singlyLinkedList) throws ListException{
+    public void writeInCsvFile(List<E> list) throws ListException {
 
         try {
             Writer writer = Files.newBufferedWriter(Paths.get(SAMPLE_CSV_FILE_PATH));
             CSVWriter csvWriter = new CSVWriter(writer);
-            String[] data = singlyLinkedList.toString().split(",");
+            String[] data = list.toString().split(",");
             csvWriter.writeNext(data);
             csvWriter.flush();
             csvWriter.close();
-            readCsvFileToLinkedList();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addDataToCsvFile(E data) throws ListException {
+        List<E> list = readCsvFileToLinkedList();
+        Boolean result = list.search(data);
+        if (result == false)
+            list.add(data);
+        writeInCsvFile(list);
     }
 
 }

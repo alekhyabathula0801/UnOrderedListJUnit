@@ -1,13 +1,13 @@
 package com.unorderedlist;
 
-public class SinglyLinkedList<E> {
+public class List<E> {
 
     public Node first;
     public Node last;
     public Node temp;
     public int count;
 
-    public SinglyLinkedList() {
+    public List() {
         first = null;
         last = null;
         count = 0;
@@ -79,7 +79,7 @@ public class SinglyLinkedList<E> {
     }
 
     public <E> Boolean isEmpty() {
-        if(count == 0)
+        if(first == null)
             return true;
         return false;
     }
