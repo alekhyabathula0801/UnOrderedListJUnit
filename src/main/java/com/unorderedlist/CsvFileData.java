@@ -29,7 +29,7 @@ public class CsvFileData<E extends Comparable<E>> {
         return list;
     }
 
-    public void writeInCsvFile(List<E> list) throws ListException {
+    public void writeInCsvFile(List<E> list) {
 
         try {
             Writer writer = Files.newBufferedWriter(Paths.get(SAMPLE_CSV_FILE_PATH));
@@ -46,7 +46,7 @@ public class CsvFileData<E extends Comparable<E>> {
     public void addDataToCsvFile(E data) throws ListException {
         List<E> list = readCsvFileToLinkedList();
         Boolean result = list.search(data);
-        if (result == false)
+        if(result == false)
             list.add(data);
         writeInCsvFile(list);
     }

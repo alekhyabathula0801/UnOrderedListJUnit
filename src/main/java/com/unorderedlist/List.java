@@ -88,6 +88,12 @@ public class List<E> {
         return count;
     }
 
+    public <E> void append(E ...values) throws ListException {
+        for(E value : values) {
+            add(value);
+        }
+    }
+
     public <E> void displayList(){
         for(temp=first;temp!=null;temp=temp.next){
             System.out.println(temp.data);

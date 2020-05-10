@@ -197,7 +197,16 @@ public class ListAndCsvDataTest {
     }
 
     @Test
-    public <E> void givenData_whenNotFoundAddToList_shouldIncreaseSizeBy1() throws ListException{
+    public <E> void given1ElementToAddAnd2ElementsToAppend_shouldReturn3() throws ListException{
+        List<E> list = new List<>();
+        list.add(5);
+        list.append(1,2);
+        int result = list.size();
+        Assert.assertEquals(3,result);
+    }
+
+    @Test
+    public <E> void givenData_whenNotFoundAddIt_shouldIncreaseSizeBy1() throws ListException{
         CsvFileData<String> file = new CsvFileData<>();
         List<String> list = file.readCsvFileToLinkedList();
         file.addDataToCsvFile("Snigdha");
