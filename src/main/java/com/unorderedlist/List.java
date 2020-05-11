@@ -1,19 +1,19 @@
 package com.unorderedlist;
 
-public class List<E> {
+public class List<E extends Comparable> {
 
-    public Node first;
-    public Node last;
-    public Node temp;
+    public Node head;
+    public Node tail;
+    public Node currentNode;
     public int count;
 
     public List() {
-        first = null;
-        last = null;
+        head = null;
+        tail = null;
         count = 0;
     }
 
-    class Node <E> {
+    class Node <E extends Comparable> {
         E data;
         Node next;
 
@@ -22,64 +22,58 @@ public class List<E> {
         }
     }
 
-    public <E> void add(E item) throws ListException {
+    public <E extends Comparable> void add(E item) throws ListException {
         try {
             if(item == "")
                 throw new ListException("Entered Empty");
             Node newNode = new Node(item);
-            if (first == null) {
-                first = newNode;
-                last = newNode;
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
             } else {
-                last.next = newNode;
-                last = newNode;
+                tail.next = newNode;
+                tail = newNode;
             }
-            last.next = null;
+            tail.next = null;
             count++;
         } catch (NullPointerException e) {
             throw new ListException("Entered Null");
         }
     }
 
-    public <E> void remove(E item) throws ListException {
+    public <E extends Comparable> void remove(E item) throws ListException {
         try {
             if(item == "")
                 throw new ListException("Entered Empty");
-            else if (first.data == item) {
-                first = first.next;
+            else if (head.data == item) {
+                head = head.next;
                 count--;
-            } else if(last.data==item){
-                for(temp=first;temp.next.next != null; temp=temp.next);
-                last = temp;
-                last.next = null;
+            } else if(tail.data==item){
+                for(currentNode = head; item.compareTo(currentNode.next.data) != 0; currentNode = currentNode.next);
+                tail = currentNode;
+                tail.next = null;
                 count--;
             } else if(search(item)){
-                for(temp=first ;temp.next.data != item ; temp=temp.next);
-                    temp.next = temp.next.next;
-                    count--;
+                for(currentNode = head; item.compareTo(currentNode.next.data) != 0 ; currentNode = currentNode.next);
+                currentNode.next = currentNode.next.next;
+                count--;
             } else
-                System.out.println("Element entered is not found in list");
+                throw new ListException("Element entered is not found in list");
+
         } catch (NullPointerException e) {
             throw new ListException("Entered Null");
         }
     }
 
-    public <E> Boolean search(E item) throws ListException {
-        try {
-            if(item == "")
-                throw new ListException("Entered Empty");
-            for(temp=first; temp != null; temp=temp.next) {
-                if (item.equals(temp.data))
-                    return true;
-            }
+    public <E extends Comparable> Boolean search(E item) throws ListException {
+        if(index(item) == -1)
             return false;
-        } catch (NullPointerException e) {
-            throw new ListException("Entered Null");
-        }
+        else
+            return true;
     }
 
     public <E> Boolean isEmpty() {
-        if(first == null)
+        if(head == null)
             return true;
         return false;
     }
@@ -88,26 +82,41 @@ public class List<E> {
         return count;
     }
 
-    public <E> void append(E ...values) throws ListException {
-        for(E value : values) {
+    public <E extends Comparable> void append(E ...values) throws ListException {
+        for(E value : values)
             add(value);
+    }
+
+    public <E extends Comparable> int index(E item) throws ListException {
+        int index = -1;
+        try {
+            if(item == "")
+                throw new ListException("Entered Empty");
+            else {
+                for (currentNode = head; currentNode != null; currentNode = currentNode.next) {
+                    index++;
+                    if(item.compareTo(currentNode.data) == 0 )
+                        return index;
+                }
+                return -1;
+            }
+        } catch (NullPointerException e) {
+            throw new ListException("Entered Null");
         }
     }
 
-    public <E> void displayList(){
-        for(temp=first;temp!=null;temp=temp.next){
-            System.out.println(temp.data);
-        }
+    public void pop() throws ListException {
+        remove(tail.data);
     }
 
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        temp = first;
-        while ( temp.next != null) {
-            builder.append(temp.data).append(",");
-            temp = temp.next;
+        currentNode = head;
+        while ( currentNode.next != null) {
+            builder.append(currentNode.data).append(",");
+            currentNode = currentNode.next;
         }
-        builder.append(temp.data);
+        builder.append(currentNode.data);
         return builder+"";
     }
 

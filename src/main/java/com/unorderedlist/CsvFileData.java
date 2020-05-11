@@ -9,19 +9,36 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class CsvFileData<E extends Comparable<E>> {
+public class CsvFileData {
 
-    private static final String SAMPLE_CSV_FILE_PATH = "C:\\Users\\arun kumar\\IdeaProjects\\UnOrderedList\\src\\main\\resources\\data.csv";
-
-    public List<E> readCsvFileToLinkedList() throws ListException {
+    public <E extends Comparable> List<E> readCsvFileToLinkedList(String path, E type) throws ListException {
         List<E> list = new List<>();
         try (
-                Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_FILE_PATH));
+                Reader reader = Files.newBufferedReader(Paths.get(path));
                 CSVReader csvReader = new CSVReader(reader);
         ) {
             String[] records = csvReader.readNext();
-            for (String record : records) {
-                list.add(record);
+            switch (type.getClass().getSimpleName()) {
+                case "Integer" :
+                    for (String record : records) {
+                        list.add(Integer.parseInt(record));
+                    }
+                    break;
+                case "Double" :
+                    for (String record : records) {
+                        list.add(Double.parseDouble(record));
+                    }
+                    break;
+                case "Character" :
+                    for (String record : records) {
+                        list.add(record.charAt(0));
+                    }
+                    break;
+                default:
+                    for (String record : records) {
+                        list.add(record);
+                    }
+                    break;
             }
         } catch (IOException e) {
             System.out.println("No record found");
@@ -29,10 +46,9 @@ public class CsvFileData<E extends Comparable<E>> {
         return list;
     }
 
-    public void writeInCsvFile(List<E> list) {
-
+    public <E extends Comparable> void writeInCsvFile(List<E> list, String path) {
         try {
-            Writer writer = Files.newBufferedWriter(Paths.get(SAMPLE_CSV_FILE_PATH));
+            Writer writer = Files.newBufferedWriter(Paths.get(path));
             CSVWriter csvWriter = new CSVWriter(writer);
             String[] data = list.toString().split(",");
             csvWriter.writeNext(data);
@@ -43,14 +59,13 @@ public class CsvFileData<E extends Comparable<E>> {
         }
     }
 
-    public void addDataToCsvFile(E data) throws ListException {
-        List<E> list = readCsvFileToLinkedList();
-        Boolean result = list.search(data);
-        if(result == false)
+    public <E extends Comparable> void addOrRemoveDataInCsvFile(E data, String path, E type) throws ListException {
+        List<E> list = readCsvFileToLinkedList(path, type);
+        if(list.search(data))
+            list.remove(data);
+        else
             list.add(data);
-        writeInCsvFile(list);
+        writeInCsvFile(list,path);
     }
 
 }
-
-

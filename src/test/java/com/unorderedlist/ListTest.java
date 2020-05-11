@@ -7,7 +7,7 @@ public class ListTest {
     @Test
     public <E extends Comparable> void checkEmptyList() {
         List<E> list = new List();
-        Assert.assertEquals(null, list.first);
+        Assert.assertEquals(null, list.head);
     }
 
     @Test
@@ -78,12 +78,14 @@ public class ListTest {
     }
 
     @Test
-    public <E extends Comparable> void givenData_whenRemoveElementNotFound_ShouldReturnSize2() throws ListException {
+    public <E extends Comparable> void givenData_whenRemoveElementNotFound_ShouldThrowException() throws ListException {
         List<E> list = new List<>();
-        list.add(5);
-        list.add(2);
-        list.remove(6);
-        Assert.assertEquals(2, list.size());
+        try {
+            list.add(5);
+            list.remove(4);
+        } catch(Exception e) {
+            Assert.assertEquals("Element entered is not found in list", e.getMessage());
+        }
     }
 
     @Test
